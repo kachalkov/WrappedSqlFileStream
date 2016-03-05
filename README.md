@@ -10,6 +10,12 @@ It also uses a context object containing references to the **SqlConnection** and
 objects that were used when opening the SqlFileStream. The transaction will be committed and the
 connection closed and disposed when the stream is disposed, making it safe and easy to use and manage.
 
+#### NuGet package
+
+This library is available on Nuget:
+
+    PM> Install-Package WrappedSqlFileStream
+
 #### Sample and Usage
 
 For the sample, we will be using a context that creates a connection and transaction internally,
