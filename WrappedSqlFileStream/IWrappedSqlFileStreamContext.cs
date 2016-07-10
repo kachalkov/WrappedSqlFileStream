@@ -5,15 +5,17 @@ namespace WrappedSqlFileStream
 {
     public interface IWrappedSqlFileStreamContext
     {
-        SqlConnection Connection { get; set; }
+        SqlConnection Connection { get; }
 
-        SqlTransaction Transaction { get; set; }
+        SqlTransaction Transaction { get; }
 
-        string TableName { get; set; }
+        string TableName { get; }
 
-        string IdentifierName { get; set; }
+        string IdentifierName { get; }
+        string FileStreamProperty { get; }
+        string FileStreamName { get; }
 
-        Dictionary<string,string> Mappings { get; set; }
+        Dictionary<string,string> Mappings { get; }
 
         void CommitAndDispose();
 

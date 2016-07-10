@@ -21,6 +21,8 @@ namespace Samples.Services
 
         public ISessionFactory SessionFactory { get; protected set; }
         protected NHibernate.Cfg.Configuration configuration;
+        private IMappingProvider mappingProvider;
+        private WrappedSqlFileStreamContext<Files> context;
 
         public FilesService()
         {
@@ -39,33 +41,28 @@ namespace Samples.Services
             mapper.AddMappings(Assembly.GetAssembly(typeof(Files)).GetExportedTypes());
             configuration.AddMapping(mapper.CompileMappingForAllExplicitlyAddedEntities());
             SessionFactory = configuration.BuildSessionFactory();
+
+            mappingProvider = new DefaultMappingProvider<Files>("dbo", x => x.File);
+            context = new WrappedSqlFileStreamContext<Files>(mappingProvider, connectionstring);
         }
 
         public void SaveFile(string filename, Guid id, Stream file)
         {
-            var mappingProvider = new DefaultMappingProvider<Files, Guid>("dbo", x => x.Id);
-            var context = new WrappedSqlFileStreamContext<Files>(mappingProvider, connectionstring);
-
-            // create a new row
-            context.CreateRow(files => files.File, () => new Files()
+            context.CreateRow(() => new Files()
             {
                 Id = id,
                 FileName = filename
             });
 
-            using (var sfs = new WrappedSqlFileStream<Files>(context, files => files.File, files => files.Id == id, FileAccess.Write))
+            using (var sfs = new WrappedSqlFileStream<Files>(context, files => files.Id == id, FileAccess.Write))
             {
                 file.CopyTo(sfs);
             }
-
         }
 
         public FilesDTO GetFileDTO(Guid id)
         {
-            var mappingProvider = new DefaultMappingProvider<Files, Guid>("dbo", x => x.Id);
-            var context = new WrappedSqlFileStreamContext<Files>(mappingProvider, connectionstring);
-
-            var stream = new WrappedSqlFileStream<Files>(context, files => files.File, files => files.Id == id, FileAccess.Read);
+            var stream = new WrappedSqlFileStream<Files>(context, files => files.Id == id, FileAccess.Read);
 
             return new FilesDTO()
             {
@@ -77,18 +74,15 @@ namespace Samples.Services
 
         public Stream GetFile(Guid id)
         {
-            var mappingProvider = new DefaultMappingProvider<Files, Guid>("dbo", x => x.Id);
-            var context = new WrappedSqlFileStreamContext<Files>(mappingProvider, connectionstring);
-
-            return new WrappedSqlFileStream<Files>(context, files => files.File, files => files.Id == id, FileAccess.Read);
+            return new WrappedSqlFileStream<Files>(context, files => files.Id == id, FileAccess.Read);
         }
 
         public Stream GetFileNH(Guid id)
         {
-            var mappingProvider = new NHibernateMappingProvider<Files>(SessionFactory);
+            var mappingProvider = new NHibernateMappingProvider<Files>(SessionFactory, files => files.File);
             var context = new WrappedSqlFileStreamContext<Files>(mappingProvider, connectionstring);
 
-            return new WrappedSqlFileStream<Files>(context, files => files.File, files => files.Id == id, FileAccess.Read);
+            return new WrappedSqlFileStream<Files>(context, files => files.Id == id, FileAccess.Read);
         }
 
     }

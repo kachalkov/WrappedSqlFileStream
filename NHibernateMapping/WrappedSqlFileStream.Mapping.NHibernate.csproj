@@ -46,10 +46,6 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
-    <Reference Include="WrappedSqlFileStream, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\WrappedSqlFileStream.1.0.0.0\lib\net45\WrappedSqlFileStream.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="NHibernateHelper.cs" />
@@ -58,6 +54,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\WrappedSqlFileStream\WrappedSqlFileStream.csproj">
+      <Project>{b17d979c-1db0-4f26-8fa0-f1a2cc7297bf}</Project>
+      <Name>WrappedSqlFileStream</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

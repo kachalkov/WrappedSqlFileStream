@@ -58,7 +58,8 @@ namespace WrappedSqlFileStream.Mapping
         {
         }
 
-        public WhereClauseResult MapExpression<TResult>(Expression<Func<T, TResult>> expression)
+        //
+        public WhereClauseResult MapExpression<TResult>(Expression<Func<T, bool>> expression)
         {
             return Map(expression.Body);
         }

@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Mapping\BaseMappingProvider.cs" />
     <Compile Include="Mapping\DataRecordExtensions.cs" />
     <Compile Include="Mapping\DefaultMappingProvider.cs" />
     <Compile Include="Mapping\IMappingProvider.cs" />

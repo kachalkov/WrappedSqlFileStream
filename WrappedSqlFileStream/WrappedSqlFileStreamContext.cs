@@ -10,27 +10,44 @@ namespace WrappedSqlFileStream
 {
     public class WrappedSqlFileStreamContext<T> : IWrappedSqlFileStreamContext
     {
-        public SqlConnection Connection { get; set; }
-        public SqlTransaction Transaction { get; set; }
-        public string TableName { get; set; }
-        public string IdentifierName { get; set; }
-        public Dictionary<string, string> Mappings { get; set; }
+        public SqlConnection Connection { get; }
+        public SqlTransaction Transaction { get; }
+        public string TableName { get; }
+        public string IdentifierName { get; }
+        public string FileStreamProperty { get; }
+        public string FileStreamName { get; }
+        public Dictionary<string, string> Mappings { get; }
 
-        private bool _isInternalConnection;
+        private readonly bool _isInternalConnection;
 
+        /// <summary>
+        /// Creates a WrappedSqlFileStreamContext that will use an existing SqlConnection and SqlTransaction
+        /// </summary>
+        /// <param name="mappingProvider"></param>
+        /// <param name="connection"></param>
+        /// <param name="transaction"></param>
         public WrappedSqlFileStreamContext(IMappingProvider mappingProvider, SqlConnection connection, SqlTransaction transaction)
         {
             Mappings = mappingProvider.GetPropertyMappings();
             TableName = mappingProvider.GetTableName();
             IdentifierName = mappingProvider.GetIdentifierName();
+            FileStreamName = mappingProvider.GetFileStreamName();
+            FileStreamProperty = mappingProvider.GetFileStreamProperty();
             Connection = connection;
             Transaction = transaction;
         }
 
+        /// <summary>
+        /// Creates a WrappedSqlFileStreamContext that will use an internal SqlConnection and SqlTransaction
+        /// </summary>
+        /// <param name="mappingProvider"></param>
+        /// <param name="connectionString"></param>
         public WrappedSqlFileStreamContext(IMappingProvider mappingProvider, string connectionString)
         {
             Mappings = mappingProvider.GetPropertyMappings();
             TableName = mappingProvider.GetTableName();
+            IdentifierName = mappingProvider.GetIdentifierName();
+            FileStreamName = mappingProvider.GetFileStreamName();
             Connection = new SqlConnection(connectionString);
             Connection.Open();
             Transaction = Connection.BeginTransaction();
@@ -39,10 +56,10 @@ namespace WrappedSqlFileStream
 
         private struct ParameterMapping
         {
-            public int Index { get; set; }
-            public string FieldName { get; set; }
-            public string ParameterName { get; set; }
-            public object Value { get; set; }
+            public int Index { get; }
+            public string FieldName { get; }
+            public string ParameterName { get; }
+            public object Value { get; }
 
             public ParameterMapping(int index, string fieldName, string parameterName, object value)
             {
@@ -53,13 +70,15 @@ namespace WrappedSqlFileStream
             }
         }
 
-        public void CreateRow(Expression<Func<T, byte[]>> fileStreamFieldExpression, Expression<Func<T>> newObjectExpression)
+        /// <summary>
+        /// Creates a new row on the table, setting the FILESTREAM column to an empty binary blob
+        /// </summary>
+        /// <param name="fileStreamFieldExpression">A property expression identifying the FILESTREAM column</param>
+        /// <param name="newObjectExpression">An object initializer expression defining the value that will be used to initialize the columns on the row</param>
+        public void CreateRow(Expression<Func<T>> newObjectExpression)
         {
             var paramList = new List<ParameterMapping>();
             int index = 0;
-
-            var fileStreamFieldName = Mappings[((MemberExpression)fileStreamFieldExpression.Body).Member.Name];
-
 
             foreach (var binding in ((MemberInitExpression)newObjectExpression.Body).Bindings)
             {
@@ -83,12 +102,12 @@ namespace WrappedSqlFileStream
                 }
                 index++;
             }
-            paramList.Add(new ParameterMapping(index, fileStreamFieldName.StartsWith("[") ? fileStreamFieldName : $"[{fileStreamFieldName}]", "0x", null));
+            paramList.Add(new ParameterMapping(index, FileStreamName.StartsWith("[") ? FileStreamName : $"[{FileStreamName}]", "0x", null));
 
             var fields = string.Join(",", paramList.OrderBy(x => x.Index).Select(x => x.FieldName));
             var parameters = string.Join(",", paramList.OrderBy(x => x.Index).Select(x => x.ParameterName));
 
-            string insertTemporaryFile = $"INSERT INTO {TableName} ({fields}) VALUES ({parameters})";
+            string insertFileStreamCommand = $"INSERT INTO {TableName} ({fields}) VALUES ({parameters})";
 
             using (var command = Connection.CreateCommand())
             {
@@ -96,7 +115,7 @@ namespace WrappedSqlFileStream
                 {
                     command.Transaction = Transaction;
                     command.CommandType = CommandType.Text;
-                    command.CommandText = insertTemporaryFile;
+                    command.CommandText = insertFileStreamCommand;
                     foreach (var parameter in paramList.Where(x => x.ParameterName != "0x"))
                     {
                         command.Parameters.Add(new SqlParameter(parameter.ParameterName, parameter.Value));
@@ -163,6 +182,9 @@ namespace WrappedSqlFileStream
             }
         }
 
+        /// <summary>
+        /// Commits the SqlTransaction and closes the SqlConnection if they were internally generated.
+        /// </summary>
         public void CommitAndDispose()
         {
             if (_isInternalConnection)
@@ -171,18 +193,19 @@ namespace WrappedSqlFileStream
                 {
                     Transaction.Commit();
                     Transaction.Dispose();
-                    Transaction = null;
                 }
 
                 if (Connection != null)
                 {
                     Connection.Close();
                     Connection.Dispose();
-                    Connection = null;
                 }
             }
         }
 
+        /// <summary>
+        /// Rolls back SqlTransaction and closes the SqlConnection if they were internally generated.
+        /// </summary>
         public void RollbackAndDispose()
         {
             if (_isInternalConnection)

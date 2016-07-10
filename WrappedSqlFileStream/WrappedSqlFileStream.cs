@@ -27,19 +27,17 @@ namespace WrappedSqlFileStream
         public T RowData { get; set; }
 
         /// <summary>
-        /// Creates a new WrappedSqlFileStream <see cref="T"/> using an external connection and transaction. The caller should be responsible for disposing the transaction and closing the connection
+        /// Creates a new WrappedSqlFileStream <see cref="T"/> 
         /// </summary>
-        /// <param name="context"></param>
-        /// <param name="streamPropertyExpression">The expression identifying the property that is mapped to the FileStream column. The property must be of type byte[]</param>
+        /// <param name="context">The context of the WrappedSqlFileStream containing the table mappings and the connection and transaction</param>
         /// <param name="whereExpression">An expression identifying the row. Currently only simple equality and boolean expressions are supported</param>
         /// <param name="fileAccess">The FileAccess mode to use when creating the stream</param>
         public WrappedSqlFileStream(IWrappedSqlFileStreamContext context,
-            Expression<Func<T, byte[]>> streamPropertyExpression,
             Expression<Func<T, bool>> whereExpression,
             FileAccess fileAccess)
         {
             _context = context;
-            _sqlFileStream = CreateStream(context.TableName, streamPropertyExpression, whereExpression, fileAccess, context.Mappings);
+            _sqlFileStream = CreateStream(context.TableName, whereExpression, fileAccess, context.Mappings);
         }
 
         public override void Flush()
@@ -108,15 +106,14 @@ namespace WrappedSqlFileStream
         }
 
         private SqlFileStream CreateStream(string tableName,
-            Expression<Func<T, byte[]>> streamPropertyExpression,
             Expression<Func<T, bool>> whereExpression,
             FileAccess fileAccess,
             Dictionary<string, string> mappings)
         {
             string fields = "";
 
-            var streamProperty = ((MemberExpression)streamPropertyExpression.Body).Member.Name;
-            var streamField = mappings[streamProperty];
+            var streamProperty = _context.FileStreamProperty;
+            var streamField = _context.FileStreamName;
 
             if (fileAccess == FileAccess.Read)
             {

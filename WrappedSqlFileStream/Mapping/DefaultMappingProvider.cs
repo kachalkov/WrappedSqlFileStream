@@ -6,19 +6,19 @@ using System.Reflection;
 
 namespace WrappedSqlFileStream.Mapping
 {
-
     /// <summary>
     /// Implements a MappingProvider where the type name is mapped to the table of the same name, 
     /// and each public intance property of the specified type T is mapped to a column with the same name. 
     /// The mapping of the identifier column must be specified in the constructor
     /// </summary>
     /// <typeparam name="T">The type that will be used to create the mapping</typeparam>
-    /// <typeparam name="TIdent">The type of the property to be mapped to the identifier</typeparam>
-    public class DefaultMappingProvider<T, TIdent> : IMappingProvider
+    public class DefaultMappingProvider<T> : IMappingProvider
     {
         private string _identifier;
+        private string _fileStream;
         private string _schema;
         private static IEnumerable<PropertyInfo> _typeProperties;
+        protected Dictionary<string, string> _propertyMappings;
 
         private static IEnumerable<PropertyInfo> GetProperties()
         {
@@ -29,25 +29,30 @@ namespace WrappedSqlFileStream.Mapping
             return _typeProperties;
         }
 
-        /// <summary>
-        /// Creates an instance of the mapping provider with a default schema of "dbo"
-        /// </summary>
-        /// <param name="identifier"></param>
-        public DefaultMappingProvider(Expression<Func<T, TIdent>> identifier)
+        public void SetIdentifierColumn<TIdent>(Expression<Func<T, TIdent>> identifierFieldExpression)
         {
-            _schema = "dbo";
-            _identifier = ((MemberExpression)identifier.Body).Member.Name;
+            _identifier = ((MemberExpression)identifierFieldExpression.Body).Member.Name;
         }
 
         /// <summary>
-        /// Creates an instance of the mapping provider
+        /// Creates an instance of the default mapping provider with a default schema of "dbo"
+        /// </summary>
+        /// <param name="fileStreamFieldExpression"></param>
+        public DefaultMappingProvider(Expression<Func<T, byte[]>> fileStreamFieldExpression) : this("dbo", fileStreamFieldExpression)
+        {
+        }
+
+        /// <summary>
+        /// Creates an instance of the default mapping provider with the provided schema name
         /// </summary>
         /// <param name="schema"></param>
-        /// <param name="identifier"></param>
-        public DefaultMappingProvider(string schema, Expression<Func<T, TIdent>> identifier)
+        /// <param name="fileStreamFieldExpression"></param>
+        public DefaultMappingProvider(string schema, Expression<Func<T, byte[]>> fileStreamFieldExpression)
         {
             _schema = schema;
-            _identifier = ((MemberExpression)identifier.Body).Member.Name;
+            _fileStream = ((MemberExpression)fileStreamFieldExpression.Body).Member.Name;
+            var properties = GetProperties();
+            _propertyMappings = properties.Select(x => new { Key = x.Name, Value = "[" + x.Name + "]" }).ToDictionary(x => x.Key, x => x.Value);
         }
 
         /// <summary>
@@ -57,8 +62,17 @@ namespace WrappedSqlFileStream.Mapping
         /// <returns></returns>
         public Dictionary<string, string> GetPropertyMappings()
         {
-            IEnumerable<PropertyInfo> properties = GetProperties();
-            return properties.Select(x => new {Key = x.Name, Value = "[" + x.Name + "]"}).ToDictionary(x => x.Key, x => x.Value);
+            return _propertyMappings;
+        }
+
+        public string GetFileStreamName()
+        {
+            return _propertyMappings[_fileStream];
+        }
+
+        public string GetFileStreamProperty()
+        {
+            return _fileStream;
         }
 
         /// <summary>
@@ -67,7 +81,7 @@ namespace WrappedSqlFileStream.Mapping
         /// <returns></returns>
         public string GetIdentifierName()
         {
-            return _identifier;
+            return _identifier == null ? null : _propertyMappings[_identifier];
         }
 
         /// <summary>
@@ -76,7 +90,7 @@ namespace WrappedSqlFileStream.Mapping
         /// <returns></returns>
         public string GetTableName()
         {
-            return _schema + "." + typeof (T).Name;
+            return _schema + "." + typeof(T).Name;
         }
     }
 }
