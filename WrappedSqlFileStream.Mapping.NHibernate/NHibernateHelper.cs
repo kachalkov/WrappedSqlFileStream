@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
-using NHibernate;
+using NH = NHibernate;
 using NHibernate.Persister.Entity;
 
 namespace WrappedSqlFileStream.Mapping.NHibernate
@@ -21,7 +22,7 @@ namespace WrappedSqlFileStream.Mapping.NHibernate
         /// </summary>
         /// <param name="sessionFactory">The SessionFactory that contains the Nhibernate mappings</param>
         /// <returns></returns>
-        public static string GetTableName<T>(this ISessionFactory sessionFactory)
+        public static string GetTableName<T>(this NH.ISessionFactory sessionFactory)
         {
             var type = typeof(T);
 
@@ -34,7 +35,7 @@ namespace WrappedSqlFileStream.Mapping.NHibernate
             return persister.RootTableName;
         }
 
-        public static string GetIdentifierName<T>(this ISessionFactory sessionFactory)
+        public static string GetIdentifierName<T>(this NH.ISessionFactory sessionFactory)
         {
             // Get the objects type
             Type type = typeof(T);
@@ -55,7 +56,7 @@ namespace WrappedSqlFileStream.Mapping.NHibernate
         /// </remarks>
         /// <param name="sessionFactory">The SessionFactory that contains the Nhibernate mappings</param>
         /// <returns>Entity Property/Database column dictionary</returns>
-        public static Dictionary<string, string> GetPropertyMappings<T>(this ISessionFactory sessionFactory)
+        public static Dictionary<string, string> GetPropertyMappings<T>(this NH.ISessionFactory sessionFactory)
         {
             // Get the objects type
             Type type = typeof(T);
@@ -71,15 +72,22 @@ namespace WrappedSqlFileStream.Mapping.NHibernate
 
             // Get the entity's identifier
             string entityIdentifier = metaData.IdentifierPropertyName;
-            string databaseIdentifier = persister.KeyColumnNames[0];
 
             if (entityIdentifier != null)
             {
-                // Get the database identifier
-                // Note: We are only getting the first key column.
-                // Adjust this code to your needs if you are using composite keys!
-                // Adding the identifier as the first entry
-                d.Add(entityIdentifier, databaseIdentifier);
+                d.Add(entityIdentifier, persister.KeyColumnNames[0]);
+            }
+            else
+            {
+                var idType = metaData.IdentifierType as NH.Type.EmbeddedComponentType;
+                if (idType != null)
+                {
+                    foreach (var a in idType.PropertyNames
+                        .Zip(persister.KeyColumnNames, (property, columnName) => new {property, columnName}))
+                    {
+                        d.Add(a.property, a.columnName);
+                    }
+                }
             }
 
             // Using reflection to get a private field on the AbstractEntityPersister class
@@ -96,10 +104,11 @@ namespace WrappedSqlFileStream.Mapping.NHibernate
                 {
                     // The database identifier typically appears more than once in the NHibernate dictionary
                     // so we are just filtering it out since we have already added it to our own dictionary
-                    if (pair.Value[0] == databaseIdentifier)
-                        break;
-
-                    d.Add(pair.Key, "[" + pair.Value[0] + "]");
+                    if (pair.Key == "id") continue;
+                    if (!d.ContainsKey(pair.Key))
+                    {
+                        d.Add(pair.Key, pair.Value[0]);
+                    }
                 }
             }
 

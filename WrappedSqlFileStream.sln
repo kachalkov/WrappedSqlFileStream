@@ -1,18 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WrappedSqlFileStream", "WrappedSqlFileStream\WrappedSqlFileStream.csproj", "{B17D979C-1DB0-4F26-8FA0-F1A2CC7297BF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WrappedSqlFileStream", "WrappedSqlFileStream\WrappedSqlFileStream.csproj", "{F1161625-3309-4506-AA03-E50C1B02088C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WrappedSqlFileStream.Mapping.NHibernate", "WrappedSqlFileStream.Mapping.NHibernate\WrappedSqlFileStream.Mapping.NHibernate.csproj", "{0701FA3D-0520-4608-8CEF-0140A830904A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Samples", "Samples\Samples.csproj", "{C9441972-806C-4792-AE5C-42FDC23422F0}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WrappedSqlFileStream.Mapping.NHibernate", "NHibernateMapping\WrappedSqlFileStream.Mapping.NHibernate.csproj", "{4E547F73-1A18-4958-A498-EC1BAF55411B}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{AA8FD8CF-F2A5-410F-B295-F4CA59429CD2}"
-	ProjectSection(SolutionItems) = preProject
-		README.md = README.md
-	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -20,20 +15,23 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{B17D979C-1DB0-4F26-8FA0-F1A2CC7297BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B17D979C-1DB0-4F26-8FA0-F1A2CC7297BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B17D979C-1DB0-4F26-8FA0-F1A2CC7297BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B17D979C-1DB0-4F26-8FA0-F1A2CC7297BF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F1161625-3309-4506-AA03-E50C1B02088C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F1161625-3309-4506-AA03-E50C1B02088C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F1161625-3309-4506-AA03-E50C1B02088C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F1161625-3309-4506-AA03-E50C1B02088C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0701FA3D-0520-4608-8CEF-0140A830904A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0701FA3D-0520-4608-8CEF-0140A830904A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0701FA3D-0520-4608-8CEF-0140A830904A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0701FA3D-0520-4608-8CEF-0140A830904A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C9441972-806C-4792-AE5C-42FDC23422F0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C9441972-806C-4792-AE5C-42FDC23422F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C9441972-806C-4792-AE5C-42FDC23422F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C9441972-806C-4792-AE5C-42FDC23422F0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4E547F73-1A18-4958-A498-EC1BAF55411B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4E547F73-1A18-4958-A498-EC1BAF55411B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4E547F73-1A18-4958-A498-EC1BAF55411B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4E547F73-1A18-4958-A498-EC1BAF55411B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {27336786-5052-473A-8FDC-92FD07EAB225}
 	EndGlobalSection
 EndGlobal

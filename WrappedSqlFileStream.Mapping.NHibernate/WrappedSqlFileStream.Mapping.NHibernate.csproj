@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net40;net45;net462</TargetFrameworks>
+    <AssemblyName>WrappedSqlFileStream.Mapping.NHibernate</AssemblyName>
+    <RootNamespace>WrappedSqlFileStream.Mapping.NHibernate</RootNamespace>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>endersoft.snk</AssemblyOriginatorKeyFile>
+    <Version>1.2.0</Version>
+    <Authors>RupertAvery</Authors>
+    <Company>RupertAvery</Company>
+    <PackageProjectUrl>https://github.com/RupertAvery/WrappedSqlFileStream</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/RupertAvery/WrappedSqlFileStream</RepositoryUrl>
+    <RepositoryType></RepositoryType>
+    <PackageTags>SqlFileStream, NHibernate</PackageTags>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Description>NHibernate Mapping Provider for WrappedSqlFileStream</Description>
+    <Copyright>2016</Copyright>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="NHibernate" Version="4.0.4.4000" />
+    <PackageReference Include="WrappedSqlFileStream" Version="1.2.0" />
+  </ItemGroup>
+
+</Project>

@@ -67,17 +67,17 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\NHibernateMapping\WrappedSqlFileStream.Mapping.NHibernate.csproj">
-      <Project>{4e547f73-1a18-4958-a498-ec1baf55411b}</Project>
+    <Content Include="Setup.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\WrappedSqlFileStream.Mapping.NHibernate\WrappedSqlFileStream.Mapping.NHibernate.csproj">
+      <Project>{0701fa3d-0520-4608-8cef-0140a830904a}</Project>
       <Name>WrappedSqlFileStream.Mapping.NHibernate</Name>
     </ProjectReference>
     <ProjectReference Include="..\WrappedSqlFileStream\WrappedSqlFileStream.csproj">
-      <Project>{b17d979c-1db0-4f26-8fa0-f1a2cc7297bf}</Project>
+      <Project>{f1161625-3309-4506-aa03-e50c1b02088c}</Project>
       <Name>WrappedSqlFileStream</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Setup.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

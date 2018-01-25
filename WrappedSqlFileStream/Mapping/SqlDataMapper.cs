@@ -107,7 +107,11 @@ namespace WrappedSqlFileStream.Mapping
                     }
                     if (sqlDataReader.HasColumn(fieldName))
                     {
+#if NET40
+                        property.SetValue(result, GetValue(property, sqlDataReader, fieldName), null);
+#else
                         property.SetValue(result, GetValue(property, sqlDataReader, fieldName));
+#endif
                     }
                 }
             }
