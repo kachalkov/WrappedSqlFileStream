@@ -1,7 +1,7 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net40;net45;net462</TargetFrameworks>
+	<TargetFrameworks>netstandard2.1</TargetFrameworks>
     <AssemblyName>WrappedSqlFileStream.Mapping.NHibernate</AssemblyName>
     <RootNamespace>WrappedSqlFileStream.Mapping.NHibernate</RootNamespace>
     <SignAssembly>true</SignAssembly>
@@ -19,8 +19,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="NHibernate" Version="4.0.4.4000" />
-    <PackageReference Include="WrappedSqlFileStream" Version="1.2.0" />
+    <ProjectReference Include="..\WrappedSqlFileStream\WrappedSqlFileStream.csproj" />
+    <PackageReference Include="NHibernate" Version="5.4.2" />
   </ItemGroup>
 
 </Project>

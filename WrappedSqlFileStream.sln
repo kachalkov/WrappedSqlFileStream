@@ -1,4 +1,4 @@
-﻿
+
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27130.0
@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WrappedSqlFileStream", "Wra
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WrappedSqlFileStream.Mapping.NHibernate", "WrappedSqlFileStream.Mapping.NHibernate\WrappedSqlFileStream.Mapping.NHibernate.csproj", "{0701FA3D-0520-4608-8CEF-0140A830904A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Samples", "Samples\Samples.csproj", "{C9441972-806C-4792-AE5C-42FDC23422F0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Samples", "Samples\Samples.csproj", "{C9441972-806C-4792-AE5C-42FDC23422F0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
