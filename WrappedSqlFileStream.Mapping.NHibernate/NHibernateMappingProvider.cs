@@ -8,19 +8,19 @@ namespace WrappedSqlFileStream.Mapping.NHibernate
     public class NHibernateMappingProvider<T> : IMappingProvider
     {
         private readonly ISessionFactory _sessionFactory;
-        private string _fileStream;
-        private Dictionary<string, string> _propertyMappings;
+        public string FileStream { get; }
+        public Dictionary<string, string> PropertyMappings { get; }
 
         public NHibernateMappingProvider(ISessionFactory sessionFactory, Expression<Func<T, byte[]>> fileStreamFieldExpression)
         {
             _sessionFactory = sessionFactory;
-            _fileStream = ((MemberExpression)fileStreamFieldExpression.Body).Member.Name;
-            _propertyMappings = _sessionFactory.GetPropertyMappings<T>();
+            FileStream = ((MemberExpression)fileStreamFieldExpression.Body).Member.Name;
+            PropertyMappings = _sessionFactory.GetPropertyMappings<T>();
         }
 
         public Dictionary<string, string> GetPropertyMappings()
         {
-            return _propertyMappings;
+            return PropertyMappings;
         }
 
         public string GetIdentifierName()
@@ -30,12 +30,12 @@ namespace WrappedSqlFileStream.Mapping.NHibernate
 
         public string GetFileStreamName()
         {
-            return _propertyMappings[_fileStream];
+            return PropertyMappings[FileStream];
         }
 
         public string GetFileStreamProperty()
         {
-            return _fileStream;
+            return FileStream;
         }
         
         public string GetTableName()
