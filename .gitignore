@@ -29,3 +29,9 @@ _ReSharper*/
 [Tt]est[Rr]esult*
 .vs/config/applicationhost.config
 packages/*
+/.vs/ProjectEvaluation/wrappedsqlfilestream.metadata.v7.bin
+/.vs/ProjectEvaluation/wrappedsqlfilestream.projects.v7.bin
+/.vs/WrappedSqlFileStream/DesignTimeBuild/.dtbcache.v2
+/.vs/WrappedSqlFileStream/FileContentIndex/986a1cb4-69e8-476e-905c-0a5429da3820.vsidx
+/.vs/WrappedSqlFileStream/v17/.futdcache.v2
+/.vs/WrappedSqlFileStream/FileContentIndex
