@@ -3,7 +3,7 @@
     <OutputType>Exe</OutputType>
   </PropertyGroup>
   <PropertyGroup>
-	  <TargetFrameworks>netstandard2.1</TargetFrameworks>
+	<TargetFrameworks>net6.0</TargetFrameworks>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <AssemblyTitle>Samples</AssemblyTitle>
     <Company>RupertAvery</Company>
@@ -19,6 +19,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Setup.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.5" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\WrappedSqlFileStream.Mapping.NHibernate\WrappedSqlFileStream.Mapping.NHibernate.csproj" />

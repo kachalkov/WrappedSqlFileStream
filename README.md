@@ -23,9 +23,11 @@ WrappedSqlFileStream solves this issue by keeping a reference to the `SqlTransac
 
 ## Example and Usage
 
-You will need a SQL Server 2008 or higher database. Run the `Setup.sql` script from the Samples project on your SQL database and modify the connection string in the App.config as necessary
+You will need a SQL Server 2008 or higher database. You will also need to enable FILESTREAM.
 
-Three objects are needed to work with `WrappedSqlFileStream`: a class that implements `IMappingProvider`, a `WrappedSqlFileStreamContext` and the `WrappedSqlFileStream` itself.
+https://learn.microsoft.com/en-us/sql/relational-databases/blob/enable-and-configure-filestream?view=sql-server-ver16
+
+To run the Sample project, make sure you have enabled FILESTREAM, then run the `Setup.sql` script from the Samples project on your SQL database. Modify the connection string in the `App.config` as necessary.
 
 ## Mapping a Table to a Type
 
@@ -191,3 +193,44 @@ In this case, committing of the transaction and disposing of the connection will
 # License
 
 WrappedSqlFileStream is available under the MIT License.
+
+# Troubleshooting
+
+## FILESTREAM feature is disabled
+
+You get the error:
+
+```
+FILESTREAM feature is disabled.
+```
+
+Make sure you enable FILESTREAM in SQL Server Configuration Manager, and restart the SQL Server service.
+
+https://learn.microsoft.com/en-us/sql/relational-databases/blob/enable-and-configure-filestream?view=sql-server-ver16
+
+* In the SQL Server Configuration Manager snap-in, locate the instance of SQL Server on which you want to enable FILESTREAM.
+* Right-click the instance, and then click Properties.
+* In the SQL Server Properties dialog box, click the FILESTREAM tab.
+* Select the Enable FILESTREAM for Transact-SQL access check box.
+
+If you can't find SQL Server Configuration Manager, try running the following in the Run dialog
+
+```
+sqlservermanager15.msc
+```
+
+## FILESTREAM feature doesn't have file system access enabled
+
+You get the error:
+
+```
+Microsoft.Data.SqlClient.SqlException: 'FILESTREAM feature doesn't have file system access enabled.'
+```
+
+Execute the following SQL statements:
+
+```
+sp_configure 'filestream access level', 2
+
+RECONFIGURE WITH OVERRIDE
+```
