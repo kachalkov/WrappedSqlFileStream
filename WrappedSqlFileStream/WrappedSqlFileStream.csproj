@@ -1,30 +1,30 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFrameworks>netstandard2.1</TargetFrameworks>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageId>WrappedSqlFileStream</PackageId>
-    <Version>1.2.0</Version>
-    <Authors>RupertAvery</Authors>
-    <Company>RupertAvery</Company>
-    <Product>WrappedSqlFileStream</Product>
-    <AssemblyVersion>1.2.0.0</AssemblyVersion>
-    <FileVersion>1.2.0.0</FileVersion>
-    <PackageProjectUrl>https://github.com/RupertAvery/WrappedSqlFileStream</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/RupertAvery/WrappedSqlFileStream</RepositoryUrl>
-    <RepositoryType>Git</RepositoryType>
-    <PackageTags>SqlFileStream</PackageTags>
-    <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile>endersoft.snk</AssemblyOriginatorKeyFile>
-    <DelaySign>false</DelaySign>
-    <RootNamespace>WrappedSqlFileStream</RootNamespace>
-    <AssemblyName>WrappedSqlFileStream</AssemblyName>
-    <Description>SqlFileStream Wrapper and Mapper</Description>
-    <Copyright>2016</Copyright>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFrameworks>netstandard2.0</TargetFrameworks>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<PackageId>WrappedSqlFileStream</PackageId>
+		<Version>2.1.0</Version>
+		<Authors>RupertAvery</Authors>
+		<Company>RupertAvery</Company>
+		<Product>WrappedSqlFileStream</Product>
+		<AssemblyVersion>2.1.0.0</AssemblyVersion>
+		<FileVersion>2.1.0.0</FileVersion>
+		<PackageProjectUrl>https://github.com/RupertAvery/WrappedSqlFileStream</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/RupertAvery/WrappedSqlFileStream</RepositoryUrl>
+		<RepositoryType>Git</RepositoryType>
+		<PackageTags>SqlFileStream</PackageTags>
+		<SignAssembly>true</SignAssembly>
+		<AssemblyOriginatorKeyFile>endersoft.snk</AssemblyOriginatorKeyFile>
+		<DelaySign>false</DelaySign>
+		<RootNamespace>WrappedSqlFileStream</RootNamespace>
+		<AssemblyName>WrappedSqlFileStream</AssemblyName>
+		<Description>SqlFileStream Wrapper and Mapper</Description>
+		<Copyright>2016</Copyright>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Microsoft.Data.SqlClient" Version="5.1.1" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Microsoft.Data.SqlClient" Version="5.1.1" />
+	</ItemGroup>
 
 </Project>

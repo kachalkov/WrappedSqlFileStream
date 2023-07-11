@@ -1,27 +1,27 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <OutputType>Exe</OutputType>
-  </PropertyGroup>
-  <PropertyGroup>
-	  <TargetFrameworks>netstandard2.1</TargetFrameworks>
-    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-    <AssemblyTitle>Samples</AssemblyTitle>
-    <Company>RupertAvery</Company>
-    <Product>Samples</Product>
-    <Copyright>Copyright © RupertAvery 2016</Copyright>
-    <AssemblyVersion>1.0.0.0</AssemblyVersion>
-    <FileVersion>1.0.0.0</FileVersion>
-  </PropertyGroup>
-  <ItemGroup>
-    <Content Include="Hemmingway_The Old Man and the Sea_1952.pdf">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Setup.sql" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\WrappedSqlFileStream.Mapping.NHibernate\WrappedSqlFileStream.Mapping.NHibernate.csproj" />
-    <ProjectReference Include="..\WrappedSqlFileStream\WrappedSqlFileStream.csproj" />
-  </ItemGroup>
+	<PropertyGroup>
+		<OutputType>Exe</OutputType>
+	</PropertyGroup>
+	<PropertyGroup>
+		<TargetFrameworks>netstandard2.0</TargetFrameworks>
+		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+		<AssemblyTitle>Samples</AssemblyTitle>
+		<Company>RupertAvery</Company>
+		<Product>Samples</Product>
+		<Copyright>Copyright © RupertAvery 2016</Copyright>
+		<AssemblyVersion>1.0.0.0</AssemblyVersion>
+		<FileVersion>1.0.0.0</FileVersion>
+	</PropertyGroup>
+	<ItemGroup>
+		<Content Include="Hemmingway_The Old Man and the Sea_1952.pdf">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+	</ItemGroup>
+	<ItemGroup>
+		<Content Include="Setup.sql" />
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\WrappedSqlFileStream.Mapping.NHibernate\WrappedSqlFileStream.Mapping.NHibernate.csproj" />
+		<ProjectReference Include="..\WrappedSqlFileStream\WrappedSqlFileStream.csproj" />
+	</ItemGroup>
 </Project>
